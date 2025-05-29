@@ -18,6 +18,9 @@ import {
   BLOG_POSTS,
   EMAIL,
   SOCIAL_LINKS,
+  SKILLS_CORE,
+  SKILLS_FRAMEWORK,
+  SKILLS_TOOLS,
 } from './data'
 
 const VARIANTS_CONTAINER = {
@@ -35,15 +38,21 @@ const VARIANTS_SECTION = {
   visible: { opacity: 1, y: 0, filter: 'blur(0px)' },
 }
 
+const VARIANTS_SKILLS = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+}
+
+const VARIANTS_BADGE = {
+  hidden: { opacity: 0, y: 8 },
+  visible: { opacity: 1, y: 0 },
+}
+
 const TRANSITION_SECTION = {
   duration: 0.3,
 }
 
-type ProjectVideoProps = {
-  src: string
-}
-
-function ProjectVideo({ src }: ProjectVideoProps) {
+function ProjectVideo({ src }) {
   return (
     <MorphingDialog
       transition={{
@@ -89,13 +98,7 @@ function ProjectVideo({ src }: ProjectVideoProps) {
   )
 }
 
-function MagneticSocialLink({
-  children,
-  link,
-}: {
-  children: React.ReactNode
-  link: string
-}) {
+function MagneticSocialLink({ children, link }) {
   return (
     <Magnetic springOptions={{ bounce: 0 }} intensity={0.3}>
       <a
@@ -116,7 +119,7 @@ function MagneticSocialLink({
             fill="currentColor"
             fillRule="evenodd"
             clipRule="evenodd"
-          ></path>
+          />
         </svg>
       </a>
     </Magnetic>
@@ -137,13 +140,13 @@ export default function Personal() {
       >
         <div className="flex-1">
           <p className="text-zinc-600 dark:text-zinc-400">
-            Focused on creating intuitive and performant web experiences.
-            Bridging the gap between design and development.
+            Empowering supply chains with fully connected technology and
+            data‑driven optimization for agile, cost‑efficient operations.
           </p>
         </div>
       </motion.section>
 
-      <motion.section
+      {/* <motion.section
         variants={VARIANTS_SECTION}
         transition={TRANSITION_SECTION}
       >
@@ -159,9 +162,10 @@ export default function Personal() {
                   className="font-base group relative inline-block font-[450] text-zinc-900 dark:text-zinc-50"
                   href={project.link}
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   {project.name}
-                  <span className="absolute bottom-0.5 left-0 block h-[1px] w-full max-w-0 bg-zinc-900 dark:bg-zinc-50 transition-all duration-200 group-hover:max-w-full"></span>
+                  <span className="absolute bottom-0.5 left-0 block h-[1px] w-full max-w-0 bg-zinc-900 transition-all duration-200 group-hover:max-w-full dark:bg-zinc-50" />
                 </a>
                 <p className="text-base text-zinc-600 dark:text-zinc-400">
                   {project.description}
@@ -170,7 +174,7 @@ export default function Personal() {
             </div>
           ))}
         </div>
-      </motion.section>
+      </motion.section> */}
 
       <motion.section
         variants={VARIANTS_SECTION}
@@ -180,18 +184,18 @@ export default function Personal() {
         <div className="flex flex-col space-y-2">
           {WORK_EXPERIENCE.map((job) => (
             <a
-              className="relative overflow-hidden rounded-2xl bg-zinc-300/30 p-[1px] dark:bg-zinc-600/30"
+              key={job.id}
               href={job.link}
               target="_blank"
               rel="noopener noreferrer"
-              key={job.id}
+              className="relative overflow-hidden rounded-2xl bg-zinc-300/30 p-[1px] dark:bg-zinc-600/30"
             >
               <Spotlight
                 className="from-zinc-900 via-zinc-800 to-zinc-700 blur-2xl dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-50"
                 size={64}
               />
               <div className="relative h-full w-full rounded-[15px] bg-white p-4 dark:bg-zinc-950">
-                <div className="relative flex w-full flex-row justify-between">
+                <div className="relative flex w-full justify-between">
                   <div>
                     <h4 className="font-normal dark:text-zinc-100">
                       {job.title}
@@ -209,27 +213,100 @@ export default function Personal() {
           ))}
         </div>
       </motion.section>
+      {/* skills section */}
+
+      <motion.section
+        variants={VARIANTS_SECTION}
+        initial="hidden"
+        animate="visible"
+        transition={TRANSITION_SECTION}
+        className="space-y-6"
+      >
+        <h3 className="text-lg font-medium">Skills</h3>
+
+        {/** Core Skills **/}
+        <div>
+          <h4 className="text-md mb-2 font-medium">Core</h4>
+          <motion.div
+            variants={VARIANTS_SKILLS}
+            initial="hidden"
+            animate="visible"
+            className="flex flex-wrap gap-2"
+          >
+            {SKILLS_CORE.map(({ skill }) => (
+              <motion.span
+                key={skill}
+                variants={VARIANTS_BADGE}
+                whileHover={{ scale: 1.1 }}
+                className="inline-block rounded-full bg-zinc-700 px-3 py-1 text-sm font-medium text-zinc-200"
+              >
+                {skill}
+              </motion.span>
+            ))}
+          </motion.div>
+        </div>
+
+        {/** Frameworks **/}
+        <div>
+          <h4 className="text-md mb-2 font-medium">Frameworks</h4>
+          <motion.div
+            variants={VARIANTS_SKILLS}
+            initial="hidden"
+            animate="visible"
+            className="flex flex-wrap gap-2"
+          >
+            {SKILLS_FRAMEWORK.map(({ skill }) => (
+              <motion.span
+                key={skill}
+                variants={VARIANTS_BADGE}
+                whileHover={{ scale: 1.1 }}
+                className="inline-block rounded-full bg-zinc-700 px-3 py-1 text-sm font-medium text-zinc-200"
+              >
+                {skill}
+              </motion.span>
+            ))}
+          </motion.div>
+        </div>
+
+        {/** Tools **/}
+        <div>
+          <h4 className="text-md mb-2 font-medium">Tools</h4>
+          <motion.div
+            variants={VARIANTS_SKILLS}
+            initial="hidden"
+            animate="visible"
+            className="flex flex-wrap gap-2"
+          >
+            {SKILLS_TOOLS.map(({ skill }) => (
+              <motion.span
+                key={skill}
+                variants={VARIANTS_BADGE}
+                whileHover={{ scale: 1.1 }}
+                className="inline-block rounded-full bg-zinc-700 px-3 py-1 text-sm font-medium text-zinc-200"
+              >
+                {skill}
+              </motion.span>
+            ))}
+          </motion.div>
+        </div>
+      </motion.section>
 
       <motion.section
         variants={VARIANTS_SECTION}
         transition={TRANSITION_SECTION}
       >
         <h3 className="mb-3 text-lg font-medium">Blog</h3>
-        <div className="flex flex-col space-y-0">
+        <div className="flex flex-col">
           <AnimatedBackground
             enableHover
             className="h-full w-full rounded-lg bg-zinc-100 dark:bg-zinc-900/80"
-            transition={{
-              type: 'spring',
-              bounce: 0,
-              duration: 0.2,
-            }}
+            transition={{ type: 'spring', bounce: 0, duration: 0.2 }}
           >
             {BLOG_POSTS.map((post) => (
               <Link
                 key={post.uid}
-                className="-mx-3 rounded-xl px-3 py-3"
                 href={post.link}
+                className="-mx-3 block rounded-xl px-3 py-3"
                 data-id={post.uid}
               >
                 <div className="flex flex-col space-y-1">
@@ -257,7 +334,7 @@ export default function Personal() {
             {EMAIL}
           </a>
         </p>
-        <div className="flex items-center justify-start space-x-3">
+        <div className="flex items-center space-x-3">
           {SOCIAL_LINKS.map((link) => (
             <MagneticSocialLink key={link.label} link={link.link}>
               {link.label}
